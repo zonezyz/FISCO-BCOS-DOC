@@ -6,8 +6,8 @@
 ## 环境要求
 
 - Node.js开发环境
-  - Node.js >= 8.10.0
-  - npm >= 5.6.0
+  - Node.js >= 8.10.0 并且 <=16.20.2。建议先使用Node.js最新版本（目前最新的稳定版本为20.13.1），在后续执行npm install安装完lerna后，再将Node.js版本降低到16.20.2及以下，确保调用智能合约时不报错。
+  - npm >= 5.6.0 并且 <=8.19.4
 
   如果您没有部署过Node.js环境，可以参考下列部署方式：
   - 如果您使用Linux或MacOS：
@@ -56,16 +56,16 @@ npm config set proxy <your proxy>
 npm config set https-proxy <your proxy>
 ```
 
-*如果您所在的网络不便访问npm官方镜像，请使用其他镜像代替，如淘宝：*
+*如果您所在的网络不便访问npm官方镜像，请使用其他镜像代替，如：*
 
 ```bash
-npm config set registry https://registry.npm.taobao.org
+npm config set registry https://registry.npmmirror.com
 ```
 
 ```bash
 # 部署过程中请确保能够访问外网以能够安装第三方依赖包
 cd nodejs-sdk
-npm install
+npm install（运行完这一步后，在调用智能合约之前，将Node.js版本降至16.20.2以下，不然会报错）
 npm run repoclean
 npm run bootstrap
 ```
@@ -124,17 +124,18 @@ rcfile=~/.$(basename $SHELL)rc && ./cli.js completion >> $rcfile && source $rcfi
 **示例**
 
 以下给出几个使用示例：
+在packages/cli目录下，运行code .打开code，新建一个新的终端运行以下命令。
 
 **查看CLI工具的帮助**
 
 ```bash
-./cli.js --help
+node cli.js --help
 ```
 
 **查看CLI工具能够调用的命令及对应的功能**
 
 ```bash
-./cli.js list
+node cli.js list
 ```
 
 *以下示例中的输入、输出及参数仅供举例*
@@ -142,7 +143,7 @@ rcfile=~/.$(basename $SHELL)rc && ./cli.js completion >> $rcfile && source $rcfi
 **查看所连的FISCO BCOS节点版本**
 
 ```bash
-./cli.js getClientVersion
+node cli.js getClientVersion
 ```
 
 输出如下：
@@ -166,7 +167,7 @@ rcfile=~/.$(basename $SHELL)rc && ./cli.js completion >> $rcfile && source $rcfi
 **获取当前的块高**
 
 ```bash
-./cli.js getBlockNumber
+node cli.js getBlockNumber
 ```
 
 输出如下：
@@ -182,7 +183,7 @@ rcfile=~/.$(basename $SHELL)rc && ./cli.js completion >> $rcfile && source $rcfi
 **部署SDK自带的HelloWorld合约**
 
 ```bash
-./cli.js deploy HelloWorld
+node cli.js deploy HelloWorldV5
 ```
 
 输出如下：
@@ -196,7 +197,7 @@ rcfile=~/.$(basename $SHELL)rc && ./cli.js completion >> $rcfile && source $rcfi
 **调用HelloWorld合约的set接口，请将合约地址改为实际地址**
 
 ```bash
-./cli.js call HelloWorld 0x11b6d7495f2f04bdca45e9685ceadea4d4bd1832 set vita
+node cli.js call HelloWorldV5 0x11b6d7495f2f04bdca45e9685ceadea4d4bd1832 set vita
 ```
 
 输出如下：
@@ -211,7 +212,7 @@ rcfile=~/.$(basename $SHELL)rc && ./cli.js completion >> $rcfile && source $rcfi
 **调用HelloWorld合约的get接口，请将合约地址改为实际地址**
 
 ```bash
-./cli.js call HelloWorld 0xab09b29dd07e003776d22566ae5c078f2cb2279e get
+node cli.js call HelloWorldV5 0xab09b29dd07e003776d22566ae5c078f2cb2279e get
 ```
 
 输出如下：
@@ -230,13 +231,13 @@ rcfile=~/.$(basename $SHELL)rc && ./cli.js completion >> $rcfile && source $rcfi
 如果您想知道某一个命令该如何使用，可以使用如下的命令：
 
 ```bash
-./cli.js <command> ?
+node cli.js <command> ?
 ```
 
 其中command为一个命令名，使用`?`作为参数便可获取该命令的使用提示，如：
 
 ```bash
-./cli.js call ?
+node cli.js call ?
 ```
 
 会得到如下的输出：
